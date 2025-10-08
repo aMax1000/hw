@@ -1,0 +1,20 @@
+#include <iostream>
+#include <string>
+using namespace std;
+int main()
+{
+    int a;
+    string result;
+    cin >> a;
+    if (a >= 1 && a <= 100) {
+        result = (a % 3 == 0) ? "Fizz" : "a";
+        if (result != "a") { cout << result;}
+        result = (a % 5 == 0) ? "Buzz" : "a";
+        if (result != "a") { cout << result; }
+        result= (a % 5 != 0 && a % 3 != 0) ? to_string(a) : "a";
+        if (result != "a") { cout << result; }
+    }
+    else {
+        cout << "error";
+    }
+}
