@@ -12,7 +12,7 @@ int main()
     cin >> a;
     cin >> b;
     while (not(s=='+' or s == '-' or s == '*' or s == '/')){
-        cout << "Input s\n";
+        cout << "Input sigh\n";
         cin >> s;
     }
     
