@@ -9,8 +9,7 @@ int main()
     float b;
     float c;
     char s = 'a';
-    cin >> a;
-    cin >> b;
+    cin >> a >> b;
     while (not(s=='+' or s == '-' or s == '*' or s == '/')){
         cout << "Input sigh\n";
         cin >> s;
@@ -30,9 +29,7 @@ int main()
         break;
     }
     
-    cin >> a;
-    cin >> b;
-    cin >> c;
+    cin >> a >> b >> c;
     if (a > b){
         if (a > c) {
             cout << a;
@@ -50,9 +47,7 @@ int main()
         }
     }
 
-    cin >> a;
-    cin >> b;
-    cin >> c;
+    cin >> a >> b >> c;
     cout << (a == b or b == c or c == a);
 }
 
