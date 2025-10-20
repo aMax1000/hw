@@ -1,11 +1,10 @@
-
 #include <iostream>
 using namespace std;
 int main()
 {
-    double a;
+    int a;
     double b=0;
-    int sum=0;
+    double sum=0;
     cin>>a;
     for (int i=0; i < a; i++) {
         cin >> b;
