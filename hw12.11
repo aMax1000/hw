@@ -1,0 +1,14 @@
+#include <iostream>
+#include <cstdlib>
+int main()
+{
+    srand(time(NULL));
+    short a[10];
+    for (short i = 0; i < 10; i++) {
+        a[i] = rand() % 21 - 10;
+    }
+    for (short i = 0; i < 10; i++) {
+        std::cout << a[i] <<'\n';
+    }
+    
+}
