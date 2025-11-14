@@ -1,0 +1,50 @@
+// усі логаріфми вкали на математиці
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+int main()
+{
+    srand(time(NULL));
+    signed int rows;
+    signed int cols;
+    long long max;
+    signed short summax=0;
+    long long n;
+    cout << "number of rows?";
+    cin >> rows;
+    cout << "number of colums?";
+    cin >> cols;
+    cout << "max number?";
+    cin >> max;
+    for (int i = 1; i <= max; i *= 10) {
+        summax++;
+    }
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < ((summax + 1) * cols + 1); j++) {
+            if (j % (summax + 1) == 0) {
+                cout << '+';
+            }else{ cout << '-'; 
+            }
+        }
+        cout << '\n';
+        for (int j = 0; j < cols; j++) {
+            n = (static_cast<long long>(35184372088832) * rand() + static_cast<long long>(1073741824) * rand() + static_cast<long long>(32768) * rand() + rand()) % (max + 1);
+            cout << '|';
+            for (int o = pow(10,summax-1); (o > n and o>1); o /= 10) {
+                cout << ' ';
+            }
+            cout << n;
+        }
+        cout << '|';
+        cout << '\n';
+    }
+    for (int j = 0; j < ((summax + 1) * cols + 1); j++) {
+        if (j % (summax + 1) == 0) {
+            cout << '+';
+        }
+        else {
+            cout << '-';
+        }
+    }
+}
