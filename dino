@@ -1,0 +1,105 @@
+// динозаврик.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <windows.h>
+using namespace std;
+int main()
+{
+    srand(time(NULL));
+    std::ios::sync_with_stdio(false);
+    cin.tie(0);
+    string line;
+    ifstream in;
+    ofstream out;
+
+    short gravity = 3;
+    short jumph = 18;
+    signed short mspf = 25;
+    int posx = 0;
+    short delay = 10;
+    signed short chance = 10;
+    signed short maxlengh = 5;
+
+    int score = 0;
+    short posy = 0;
+    short accy = 0;
+    short delaytemp = 0;
+    short cacl = 0;
+    string f = "                                                                                                    ";
+    while (true) {
+        in.open("control.txt");
+        if (in.is_open())
+        {
+            getline(in, line);
+            if (line == "jump") {
+                if (posy == 0) {
+                    accy += jumph;
+                }
+            }
+        }
+        in.close();
+
+        out.open("control.txt");
+        if (out.is_open())
+        {
+            out << "write-\"jump\" and save to jump";
+        }
+        out.close();
+        
+        if (posy != 0) {
+            accy -= gravity;
+        }
+        posy += accy;
+        if (posy < 0) {
+            posy = 0;
+        }
+        if (delaytemp > 0) {
+            delaytemp--;
+        }
+        if (f[0] == '+' and posy < 10) {
+            return 0;
+        }
+        for (int i=0; i < 99; i++) {
+            f[i] = f[i + 1];
+        }
+        if (rand() % chance == 0 and delaytemp == 0) {
+            delaytemp = delay;
+            cacl = rand() % maxlengh + 1;
+        }
+        if(cacl>0){
+            f[99] = '+';
+            cacl--;
+        }else {
+            f[99] = ' ';
+        }
+        posx++;
+        score++;
+        system("CLS");
+        if (posy < 100 && posy >= 90) { std::cout << "d"; } std::cout << score << endl;
+        if (posy < 90 && posy >= 80) { std::cout << "d"; } std::cout << endl;
+        if (posy < 80 && posy >= 70) { std::cout << "d"; } std::cout << endl;
+        if (posy < 70 && posy >= 60) { std::cout << "d"; } std::cout << endl;
+        if (posy < 60 && posy >= 50) { std::cout << "d"; } std::cout << endl;
+        if (posy < 50 && posy >= 40) { std::cout << "d"; } std::cout << endl;
+        if (posy < 40 && posy >= 30) { std::cout << "d"; } std::cout << endl;
+        if (posy < 30 && posy >= 20) { std::cout << "d"; } std::cout << endl;
+        if (posy < 20 && posy >= 10) { std::cout << "d"; } std::cout << endl;
+        if (posy < 10) { std::cout << "d"; }else{ std::cout << ' '; }
+        cout << f;
+        Sleep(mspf);
+    }
+}
+
+// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
+// Debug program: F5 or Debug > Start Debugging menu
+
+// Tips for Getting Started: 
+//   1. Use the Solution Explorer window to add/manage files
+//   2. Use the Team Explorer window to connect to source control
+//   3. Use the Output window to see build output and other messages
+//   4. Use the Error List window to view errors
+//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
+//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
