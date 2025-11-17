@@ -152,8 +152,9 @@ int main()
                     out.close();
 
                 
-                    return 0;
+                    
                 }
+            return 0;
             }
             for (int i = 0; i < view - speed; i++) {
                 f[i] = f[i + speed];
