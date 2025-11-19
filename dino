@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include <windows.h>
+#include <ctime>
 using namespace std;
 
 short chartoint(char a){
@@ -27,6 +28,9 @@ short chartoint(char a){
         return 5;
     }
     if (a == '6') {
+        return 6;
+    }
+    if (a == '7') {
         return 7;
     }
     if (a == '8') {
@@ -93,10 +97,9 @@ int main()
     short gravity = 3;
     short jumph = 18;
     signed short mspf = 25;
-    int posx = 0;
-    short delay = 20;
-    signed short chance = 10;
-    signed short maxlengh = 5;
+    short delay = 15;
+    signed short chance = 25;
+    signed short maxlengh = 1;
     signed short view = 50;
     signed short speed = 1;
 
@@ -105,7 +108,7 @@ int main()
     short accy = 0;
     short delaytemp = 0;
     short cacl = 0;
-    string f = "                                                                                                    ";
+    string f(view+1,' ');
     while (true) {
         in.open("control.txt");
         if (in.is_open())
@@ -120,7 +123,7 @@ int main()
         in.close();
 
         out.open("control.txt");
-        if (out.is_open())
+        if (out.is_open() && not(line == "write-\"jump\" and save to jump"))
         {
             out << "write-\"jump\" and save to jump";
         }
@@ -133,7 +136,7 @@ int main()
         if (posy < 0) {
             posy = 0;
         }
-        if (delaytemp > 0) {
+        if (delaytemp > 0&& cacl==0) {
             delaytemp--;
         }
         for (int i = 0; i < speed; i++) {
@@ -154,7 +157,7 @@ int main()
                 
                     
                 }
-            return 0;
+                return 0;
             }
             for (int i = 0; i < view - speed; i++) {
                 f[i] = f[i + speed];
@@ -173,8 +176,22 @@ int main()
                     f[view - speed + i] = ' ';
                 }
             }
-            posx++;
-            score++;
+            score+=speed;
+            if (score % 50 == 0) {
+                if (chance > 6) {
+                    chance--;
+                }
+                if (delay > 15) {
+                    delay--;
+                }
+                if (mspf > 10) {
+                    mspf--;
+                }
+                if (maxlengh < 6 && score % 100 == 0) {
+                    maxlengh++;
+                }
+            }
+            
             system("CLS");
             if (posy < 100 && posy >= 90) { std::cout << "d"; } std::cout << score << '/' << maxscore << endl;
             if (posy < 90 && posy >= 80) { std::cout << "d"; } std::cout << endl;
