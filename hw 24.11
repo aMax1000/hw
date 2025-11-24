@@ -1,0 +1,83 @@
+
+#include <iostream>
+
+void outarr(int arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        std::cout << arr[i]<<'/';
+    }
+    std::cout << '\n';
+}
+
+int main()
+{
+    srand(time(NULL));
+    int size;
+    int ln;
+    std::cin >> ln;
+    int l = pow(2, ceil(log2(ln)));
+    int max;
+    std::cin >> max;
+    int* arr = new int[l];
+    int* temparr = new int[l];
+    int temp;
+    int coef = 1;
+    int head1;
+    int head2;
+    int itt = 0;
+    bool head1off=0;
+    bool head2off=0;
+    for (int i = 0; i < l; i++) {
+        if (i<ln){
+            arr[i] = (static_cast<long long>(32768) * rand() + rand()) % (max+1);
+        }
+        else {
+            arr[i] = max + 2;
+        }
+    }
+    while (coef < l) {
+        /*std::cout << "f ";
+        outarr(arr, l);*/
+        for (int itt = 0; itt < l / coef / 2; itt++) {
+            head1 = 2 * coef * itt;
+            head2 = 2 * coef * itt + coef;
+            /*std::cout << head1 << '/' << head2 << '\n';*/
+            for (int j = 0; j < 2*coef; j++) {
+                if ( ((arr[head1] > arr[head2]) and (not(head2off))) or head1off) {
+                    if (arr[head1] == max + 2 and arr[head2] == max + 2) {
+                        break;
+                    }
+                    temparr[j + itt * 2 * coef] = arr[head2];
+                    if (head2< 2*coef * (itt + 1) - 1) {
+                        head2++;
+                    }
+                    else {
+                        head2off = 1;
+                    }
+                }
+                else {
+                    temparr[j + itt * 2 * coef] = arr[head1];
+                    if (head1 < 2 * coef * itt+coef - 1) {
+                        head1++;
+                    }
+                    else {
+                        head1off = 1;
+                    }
+                }
+                /*std::cout << "mid " << head1 << '|' << head2 << "|  ";
+                outarr(temparr, l);*/
+            }
+            head1off = 0;
+            head2off = 0;
+        }
+        for (int i = 0; i < l; i++) {
+            arr[i]=temparr[i];
+            /*temparr[i] = -1;*/
+        }
+        coef *= 2;
+        
+    }
+    outarr(arr, ln);
+
+    delete[] arr;
+}
+
