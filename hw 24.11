@@ -43,11 +43,8 @@ int main()
             /*std::cout << head1 << '/' << head2 << '\n';*/
             for (int j = 0; j < 2*coef; j++) {
                 if ( ((arr[head1] > arr[head2]) and (not(head2off))) or head1off) {
-                    if (arr[head1] == max + 2 and arr[head2] == max + 2) {
-                        break;
-                    }
                     temparr[j + itt * 2 * coef] = arr[head2];
-                    if (head2< 2*coef * (itt + 1) - 1) {
+                    if (head2< 2*coef * (itt + 1) - 1 and not(arr[head2] == max + 2)) {
                         head2++;
                     }
                     else {
@@ -56,7 +53,7 @@ int main()
                 }
                 else {
                     temparr[j + itt * 2 * coef] = arr[head1];
-                    if (head1 < 2 * coef * itt+coef - 1) {
+                    if (head1 < 2 * coef * itt+coef - 1 and not(arr[head1] == max + 2)) {
                         head1++;
                     }
                     else {
