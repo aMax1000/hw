@@ -1,0 +1,44 @@
+#include <iostream>
+
+void outarr(int arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        std::cout << arr[i] << '|';
+    }
+    std::cout << '\n';
+}
+
+int main()
+{
+    srand(time(NULL));
+    int size = 30;
+    int* arr = new int[size];
+    int total = 0;
+    int finall = 0;
+    int l = 0;
+    int pos;
+    for (int i = 0; i < size; i++) {
+        arr[i] = rand() % 7 + 5;
+    }
+    outarr(arr, size);
+
+    for (int i = 0; i < size; i++) {
+        if ( arr[i] <= 9 and arr[i] >= 7) {
+            l++;
+        }
+        else {
+            if (l > finall) {
+                finall = l;
+                total = 0;
+                pos = i;
+                for (int j = i - 1; j > i - l-1; j--) {
+                    total += arr[j];
+                }
+            }
+            l = 0;
+        }
+    }
+    std::cout << "days: " << finall << '\n';
+    std::cout << "avr sleep time: " << (float)total / finall << '\n';
+    std::cout << "days started: " << pos-finall+1 << '\n';
+    std::cout << "days ended: " << pos << '\n';
+}
