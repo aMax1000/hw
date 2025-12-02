@@ -37,6 +37,14 @@ int main()
             l = 0;
         }
     }
+    if (l > finall) {
+        finall = l;
+        total = 0;
+        pos = size;
+        for (int j = size - 1; j > size - l - 1; j--) {
+        total += arr[j];
+        }
+    }
     std::cout << "days: " << finall << '\n';
     std::cout << "avr sleep time: " << (float)total / finall << '\n';
     std::cout << "days started: " << pos-finall+1 << '\n';
