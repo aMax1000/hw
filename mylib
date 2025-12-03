@@ -10,8 +10,8 @@ void out2darr(int* arr[], int rows,int cols, int max) {
     for (int i = 1; i <= max; i *= 10) {
         summax++;
     }
-    /*for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < ((summax + 1) * cols + 1); j++) {
+    for (int i = 0; i < rows; i++) {
+        /*for (int j = 0; j < ((summax + 1) * cols + 1); j++) {
             if (j % (summax + 1) == 0) {
                 std::cout << '+';
             }
