@@ -18,8 +18,8 @@ void out2darr(int* arr[], int rows,int cols, int max) {
             else {
                 std::cout << '-';
             }
-        }*/
-        std::cout << '\n';
+        }
+        std::cout << '\n';*/
         for (int j = 0; j < cols; j++) {
             std::cout << '|';
             for (int o = pow(10, summax - 1); (o > arr[i][j] and o > 1); o /= 10) {
