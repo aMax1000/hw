@@ -49,3 +49,7 @@ void sortarrcheck(int arr[], int size) {
     }
     std::cout << "YES";
 }
+
+long long longlongrand(long long max) {
+    return (static_cast<long long>(35184372088832) * rand() + static_cast<long long>(1073741824) * rand() + static_cast<long long>(32768) * rand() + rand()) % (max + 1);
+}
