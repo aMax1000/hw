@@ -49,8 +49,10 @@ int main()
     srand(time(NULL));
     signed int rows = 12;
     signed int cols = 15;
-    signed int max = 160;
-    signed int min = 110;
+    signed int max = 165;
+    signed int min = 115;
+    float avr;
+    bool k;
     int** arr = new int*[rows];
     for (int i = 0; i < rows; ++i) {
         arr[i] = new int[cols];
@@ -70,19 +72,31 @@ int main()
             arrdone[i][j] = 0;
         }
     }
-    
     out2darr(arr,rows,cols,max);
     std::cout<<'\n';
     
     for (int i = 0; i < rows; ++i) {
+        k=true;
+        avr=0;
         for (int j = 0; j < cols; ++j) {
+            avr+=arr[i][j];
             if(arr[i][j]<120){
                 arrdone[i][j]=1;
+                k=false;
             }
-            if(arr[i][j]>150){
+            if(arr[i][j]>160){
                 arrdone[i][j]=2;
+                k=false;
             }
         }
+        avr/=cols;
+        std::cout<< "averege pulse:" << avr << "   ";
+        if(k==true){
+            std::cout<< "pulse is ok";
+        }else{
+            std::cout<< "pulse is dangerous";
+        }
+        std::cout<<'\n';
     }
     
     
