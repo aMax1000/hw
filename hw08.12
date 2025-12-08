@@ -1,0 +1,99 @@
+#include <iostream>
+#include <cmath>
+
+void outarr(int arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        std::cout << arr[i] << '|';
+    }
+    std::cout << '\n';
+}
+
+void out2darr(int* arr[], int rows,int cols, int max) {
+    short summax =0;
+    for (int i = 1; i <= max; i *= 10) {
+        summax++;
+    }
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < ((summax + 1) * cols + 1); j++) {
+            if (j % (summax + 1) == 0) {
+                std::cout << '+';
+            }
+            else {
+                std::cout << '-';
+            }
+        }
+        std::cout << '\n';
+        for (int j = 0; j < cols; j++) {
+            std::cout << '|';
+            for (int o = pow(10, summax - 1); (o > arr[i][j] and o > 1); o /= 10) {
+                std::cout << ' ';
+            }
+            std::cout << arr[i][j];
+        }
+        std::cout << '|';
+        std::cout << '\n';
+    }
+    for (int j = 0; j < ((summax + 1) * cols + 1); j++) {
+        if (j % (summax + 1) == 0) {
+            std::cout << '+';
+        }
+        else {
+            std::cout << '-';
+        }
+    }
+}
+
+
+int main()
+{
+    srand(time(NULL));
+    signed int rows = 12;
+    signed int cols = 15;
+    signed int max = 160;
+    signed int min = 110;
+    int** arr = new int*[rows];
+    for (int i = 0; i < rows; ++i) {
+        arr[i] = new int[cols];
+    }
+    int** arrdone = new int*[rows];
+    for (int i = 0; i < rows; ++i) {
+        arrdone[i] = new int[cols];
+    }
+    
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            arr[i][j] = min+rand() % (max-min+1);
+        }
+    }
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            arrdone[i][j] = 0;
+        }
+    }
+    
+    out2darr(arr,rows,cols,max);
+    std::cout<<'\n';
+    
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            if(arr[i][j]<120){
+                arrdone[i][j]=1;
+            }
+            if(arr[i][j]>150){
+                arrdone[i][j]=2;
+            }
+        }
+    }
+    
+    
+    out2darr(arrdone,rows,cols,9);
+    
+    for (int i = 0; i < rows; ++i) {
+        delete[] arr[i];
+    }
+    delete[] arr;
+    for (int i = 0; i < rows; ++i) {
+        delete[] arrdone[i];
+    }
+    delete[] arrdone;
+}
