@@ -53,3 +53,28 @@ void sortarrcheck(int arr[], int size) {
 long long longlongrand(long long max) {
     return (static_cast<long long>(35184372088832) * rand() + static_cast<long long>(1073741824) * rand() + static_cast<long long>(32768) * rand() + rand()) % (max + 1);
 }
+
+unsigned char inc(char n, char mask=1) {
+	if(n & mask) {
+		return inc(n^mask,mask<<1);
+	} else {
+		return (n | mask);
+	}
+}
+
+unsigned char* inc2(unsigned char* arr, unsigned char mask=1, int ari=0) {
+
+	if(arr[ari]==0xFF) {
+		arr[ari]= 0;
+		return inc2(arr,1,inc(ari));
+	}
+	if(arr[ari] & mask) {
+		arr[ari]=arr[ari]^mask;
+		return inc2(arr,mask<<1,ari);
+
+	} else {
+		arr[ari]=arr[ari]|mask;
+		return (arr);
+
+	}
+}
