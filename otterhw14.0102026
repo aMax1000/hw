@@ -1,0 +1,8 @@
+double euroToHryvnia(double euro) {
+    return euro * 50.2;
+}
+
+int main()
+{
+    std::cout << euroToHryvnia(100.0);
+}
