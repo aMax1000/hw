@@ -1,0 +1,16 @@
+.w-90{
+    width: 90%;
+}
+.w-70{
+    width: 70%;
+}
+
+.text-gray1{
+    color: black;
+
+    /*text-decoration: underline red 0px;*/
+}
+
+.z-index-big{
+    z-index: 1000;
+}
