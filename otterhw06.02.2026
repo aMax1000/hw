@@ -1,0 +1,89 @@
+// otter 06.02.2026.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+#include <chrono>
+#include <thread>
+
+template <typename T>
+
+void outarr(T arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        std::cout << arr[i] << '|';
+    }
+    std::cout << '\n';
+}
+template <typename Y>
+void grafcout(Y arr[], int size, Y max = -1,int base = 2)  {
+    if(max==-1){
+        max = arr[0];
+        for (int i = 1; i < size; i++) {
+            if (arr[i] > max) {
+                max = arr[i];
+            }
+        }
+    }
+    int actmax = ceil(log(max)/log(base));
+    Y* actarr = new Y[size];
+    for (int i = 0; i < size; i++) {
+            actarr[i] = log(arr[i])/log(base);
+    }
+    for (int i = actmax; i >= 0; i--) {
+
+        for (int j = 0; j < size; j++) {
+            if (actarr[j] >= i) {
+                std::cout << '|';
+            }
+            else {
+                std::cout << ' ';
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+        std::cout << '\n';
+    }
+}
+
+template <typename U>
+void coolarrmult(U arr[], int size) {
+    U* actarr = new U[size];
+    actarr[0] = arr[0];
+    U prod = arr[0];
+    for (int i = 1; i < size; i++) {
+        prod *= arr[i];
+        actarr[i] = prod;
+    }
+    grafcout(actarr, size);
+    std::cout << prod;
+}
+template <typename G>
+void arrmult(G arr[], int size) {
+    G prod = arr[0];
+    for (int i = 1; i < size; i++) {
+        prod *= arr[i];
+    }
+    std::cout << prod;
+}
+
+
+int main()
+{
+    srand(time(NULL));
+    int size = 20;
+    int max = 10;
+    long long* arr = new long long[size];
+    for (int i = 0; i < size; i++) {
+        arr[i] = rand() % (max)+1;
+    }
+    coolarrmult(arr, size);
+}
+
+// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
+// Debug program: F5 or Debug > Start Debugging menu
+
+// Tips for Getting Started: 
+//   1. Use the Solution Explorer window to add/manage files
+//   2. Use the Team Explorer window to connect to source control
+//   3. Use the Output window to see build output and other messages
+//   4. Use the Error List window to view errors
+//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
+//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
