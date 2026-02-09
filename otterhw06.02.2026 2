@@ -1,0 +1,78 @@
+#include <iostream>
+#include <chrono>
+#include <thread>
+
+template <typename T>
+
+void outarr(T arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        std::cout << arr[i] << '|';
+    }
+    std::cout << '\n';
+}
+template <typename Y>
+void grafcout(Y arr[], int size, Y max = -1,int base = 2)  {
+    double time = 50;
+    if(max==-1){
+        max = arr[0];
+        for (int i = 1; i < size; i++) {
+            if (arr[i] > max) {
+                max = arr[i];
+            }
+        }
+    }
+    int actmax = ceil(log(max)/log(base));
+    Y* actarr = new Y[size];
+    for (int i = 0; i < size; i++) {
+            actarr[i] = log(arr[i])/log(base);
+    }
+    for (int i = actmax; i >= 0; i--) {
+
+        for (int j = 0; j < size; j++) {
+            if (actarr[j] >= i) {
+                std::cout << '|';
+            }
+            else {
+                std::cout << ' ';
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(ceil(time))));
+            time *=pow(0.995, 50/ time);
+        }
+        std::cout << '\n';
+    }
+}
+
+template <typename U>
+void coolarrmult(U arr[], int size) {
+    U* actarr = new U[size];
+    actarr[0] = arr[0];
+    U prod = arr[0];
+    for (int i = 1; i < size; i++) {
+        prod *= arr[i];
+        actarr[i] = prod;
+    }
+    grafcout(actarr, size);
+    std::cout << prod;
+    std::cout << '\n';
+}
+template <typename G>
+void arrmult(G arr[], int size) {
+    G prod = arr[0];
+    for (int i = 1; i < size; i++) {
+        prod *= arr[i];
+    }
+    std::cout << prod;
+}
+
+
+int main()
+{
+    srand(time(NULL));
+    int size = 20;
+    double* arr = new double[size];
+    for (int i = 0; i < size; i++) {
+        arr[i] = static_cast<double>(rand())/static_cast<double>(rand()) + 1;
+    }
+    coolarrmult(arr, size);
+    outarr(arr, size);
+}
