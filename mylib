@@ -1,4 +1,5 @@
-void outarr(int arr[], int size) {
+template <typename Tm1>
+void outarr(Tm1* arr, Tm1 size) {
     for (int i = 0; i < size; i++) {
         std::cout << arr[i] << '|';
     }
