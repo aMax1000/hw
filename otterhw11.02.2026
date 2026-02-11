@@ -1,0 +1,17 @@
+#include <iostream>
+template<typename T>
+void swap(T* a, T* b) {
+    T c = *b;
+    *b = *a;
+    *a = c;
+}
+//можете пока не проверять, чтобы я мог что-то круче сделать
+
+int main()
+{
+    int a = 10;
+    int b = 20;
+    std::cout << a << ' ' << b << '\n';
+    swap(&a, &b);
+    std::cout << a << ' ' << b;
+}
