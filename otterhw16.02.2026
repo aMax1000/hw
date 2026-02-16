@@ -1,0 +1,28 @@
+#include <iostream>
+template <typename Tm1>
+void outarr(Tm1* arr, Tm1 size) {
+    for (int i = 0; i < size; i++) {
+        std::cout << arr[i] << '|';
+    }
+    std::cout << '\n';
+}
+
+void mult(int* arr, int size, int* mult){
+    for (int i = 0; i < size; i++) {
+        *mult *= *(arr + i);
+    }
+}
+
+int main()
+{
+    int size = 10;
+    int mult1=1;
+    int* arr = new int[size];
+    for(int i=0;i<size;i++){
+        *(arr + i) = rand() % 5 + 1;
+    }
+    outarr(arr, size);
+    mult(arr, size, &mult1);
+    std::cout << mult1;
+    
+}
