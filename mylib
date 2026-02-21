@@ -79,3 +79,19 @@ unsigned char* inc2(unsigned char* arr, unsigned char mask=1, int ari=0) {
 
 	}
 }
+template <typename Tm3>
+void intactcheck(Tm3 arr1, Tm3 arr2, int size) {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size-i; j++) {
+            if (arr1[i] == arr2[j]) {
+                arr2[j] = arr2[size - i - 1];//remove swap
+                break;
+                }
+            if (j == size - i - 1) {
+                std::cout << "FAILED";
+                return;
+            }
+        }
+    }
+    std::cout << "SUCCESS";
+}
