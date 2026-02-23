@@ -6,19 +6,22 @@ using namespace std;
 template <typename Tm1>
 void outarr(Tm1* arr, Tm1 size) {
     for (int i = 0; i < size; i++) {
-        std::cout << arr[i] << '|';
+        std::cout << arr[i] << ',';
     }
     std::cout << '\n';
 }
 
-void otter2(int* arr,int size, int& amount,int div = 2) {
+void count(int* arr,int size, int& amount,int div = 2) {
      for (int i = 0; i < size; i++) {
             if (arr[i] % div == 0) {
                  amount++;
+                 //cout << "e  " << arr[i] << "  \n";
             }
         }
 }
-void otter3(int* arr, int size, int*& arrout, int& num, int div = 2) {
+
+void find(int* arr, int size, int*& arrout, int div = 2) {
+    int num = 0;
     for (int i = 0; i < size; i++) {
         if (arr[i] % div == 0) {
             arrout[num] = arr[i];
@@ -27,17 +30,38 @@ void otter3(int* arr, int size, int*& arrout, int& num, int div = 2) {
     }
 }
 
-int* otter(int* arr, int* arr2, int size, int size2, int& size3,int div=2) {
+template <typename Tm2>
+int* arrcombine(Tm2*& arr, int& size, Tm2*& arr2, int& size2, int& size3) {
+    Tm2* arr3 = new Tm2[size + size2];
+    for (int i = 0; i < size; i++) {
+        arr3[i] = arr[i];
+    }
+    delete[] arr;
+    for (int i = 0; i < size2; i++) {
+        arr3[i+size] = arr2[i];
+    }
+    delete[] arr2;
+    size3 = size + size2;
+    //cout << size3 << "  " << size << "   " << size2 <<endl;
+    //outarr(arr3, size3);
+    return arr3;
+}
+
+
+
+int* otter(int* arr, int size, int* arr2, int size2, int& size4,int div=2) {
     for (int j = 0; j < 2; j++) {
         int amount = 0;
-        int num = 0;
-        otter2(arr, size, amount, div);
-        otter2(arr2, size2, amount, div);
-        int* arr3 = new int[amount];
-        otter3(arr, size, arr3,num, div);
-        otter3(arr2, size2, arr3,num, div);
-        size3 = num;
-        return arr3;
+        int size3=0;
+        int* arr3 = arrcombine(arr, size, arr2, size2, size3);
+        count(arr3, size3, amount, div);
+        int* arr4 = new int[amount];
+        find(arr3, size3, arr4, div);
+        delete[] arr3;
+        size4 = amount;
+        //cout << "a  " << amount << "  \n";
+        return arr4;
+        
         
     }
 }
@@ -45,9 +69,10 @@ int* otter(int* arr, int* arr2, int size, int size2, int& size3,int div=2) {
 
 int main()
 {
+    srand(time(NULL));
     int size;
     int size2;
-    int sizef=0;
+    int sizef = 0;
     cin >> size;
     cin >> size2;
     int* arr = new int[size];
@@ -60,7 +85,7 @@ int main()
     }
     outarr(arr, size);
     outarr(arr2, size2);
-    int* arr3 = otter(arr, arr2, size, size2,sizef);
+    int* arr3 = otter(arr, size, arr2, size2,sizef);
     outarr(arr3, sizef);
 }
 
