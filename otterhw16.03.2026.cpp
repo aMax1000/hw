@@ -28,6 +28,7 @@ T div(T ell1, T ell2) {
     char* a = new char[21] {'E', 'R','R','O','R',' ','D','I','V','I','S','I','O','N',' ','B','Y',' ','0','\n','\0'};
     a[0] = divideby0detectior*a[0];
     print(a);
+    delete[] a;
     return ((1-divideby0detectior) * ell1) / (ell2+divideby0detectior);
     //returns 0 if you divide by 0
 }
