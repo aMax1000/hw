@@ -75,6 +75,16 @@ char charadd(char a) {
     }
     
 }
+char settoe(char a) {
+    if (a == '0') {
+        //dpr('t');
+        return 'E';
+    }
+    else {
+        return a;
+    }
+
+}
 
 
 template<typename T>
@@ -86,68 +96,105 @@ void print(T** arr,int col,int row) {
         std::cout << std::endl;
     }
 }
-template<typename T>
-void boardprint(T** arr, int col, int row) {
-    for (int i = 0; col > i; i++) {
-        for (int j = 0; row > j; j++) {
-            switch (arr[i][j])
-            {
-            case('F'):
-            default:
-                break;
-            }
-        }
-        std::cout << std::endl;
-    }
-}
+
 template<typename T>
 void saferun(T**& arr, int col, int row, int x,int y, funcarr& a) {
     int d=a.size();
     for (int i=0; d>i; i++) {
-        if (not((a.x(i) + x >= row or a.y(i) + y >= col) or (a.x(i) + x < 0 or a.y(i) + y < 0))){
+        if (not(((a.x(i) + x >= col) or (a.y(i) + y >= row)) or ((a.x(i) + x < 0) or (a.y(i) + y < 0)))){
             arr[x + a.x(i)][y + a.y(i)] = a.func(i)(arr[x + a.x(i)][y + a.y(i)]);
+            
         }
     }
     return;
 }
-void scanfor(char**& arr, int col, int row, char target, funcarr& func) {
+bool scanfor(char**& arr, int col, int row, char target, funcarr& func) {
+    bool a = false;
     for (int i = 0; col > i; i++) {
         for (int j = 0; row > j; j++) {
             if (arr[i][j] == target) {
+                a = true;
                 saferun(arr, col, row, i, j, func);
             }
         }
     }
-    return;
+    return a;
 }
 template<typename T>
-void opencel(T**& arr, T**& arr2, int col, int row, int x, int y) {
-    if(not(arr2[y][x] ='1')){
-        int a= (arr[y][x]-arr2[y][x]);
-        if (a == 0) {
-            if (not(1 + x >= row or 1 + y >= col)) {
-                opencel(arr, arr2, col, row, x+1, y+1)
-            }
-            if (not(1 + x >= row or y-1 < 0)) {
-                opencel(arr, arr2, col, row, x + 1, y - 1)
-            }
-            if (not(x-1 < 0 or 1 + y >= col)) {
-                opencel(arr, arr2, col, row, x - 1, y + 1)
-            }
-            if (not(x-1 < 0 or y-1 < 0))) {
-                opencel(arr, arr2, col, row, x - 1, y - 1)
-            }
+void opencel(T**& arr, T**& arr2, T**& arr3, int col, int row, int x, int y) {
+    arr3[x][y] = 'O';
+        if (arr[x][y] == arr2[x][y]) {
+            funcarr a;
+            a.addell(settoe, 1, 1);
+            a.addell(settoe, -1, 1);
+            a.addell(settoe, 1, -1);
+            a.addell(settoe, -1, -1);
+            a.addell(settoe, 1, 0);
+            a.addell(settoe, 0, 1);
+            a.addell(settoe, -1, 0);
+            a.addell(settoe, 0, -1);
             
+            saferun(arr3, col, row, x, y, a);
         }
+        return;
+}
+
+char charminus(char a) {
+    if (a < '9') {
+        return --a;
     }
-    return
+    else {
+        return a;
+    }
+}
+template<typename T>
+void atcboardprint(T**& arr, T**& arr3, int col, int row) {
+    std::cout << "  |";
+    for (int i = 0; row > i; i++) {
+        std::cout << i/10 << '|';
+    }
+    std::cout << '\n' << "  |";
+    for (int i = 0; row > i; i++) {
+        std::cout << i % 10 << '|';
+    }
+    std::cout << '\n' << "--+";
+    for (int i = 0; row > i; i++) {
+        std::cout << '-' << '-';
+    }
+    std::cout << '\n';
+    for (int i = 0; col > i; i++) {
+        std::cout << i / 10;
+        std::cout << i % 10 << '|';
+        for (int j = 0; row > j; j++) {
+            if(arr3[i][j]=='O'){
+            std::cout << arr[i][j] << ' ';
+            }
+            else {
+                if (arr3[i][j] == 'F') {
+                    std::cout << 'F' << ' ';
+                }else{
+                    std::cout << 'M' << ' ';
+                }
+            }
+        }
+        std::cout << std::endl;
+    }
+    std::cout << "----------";
 }
 
 int main()
 {
     int row=10;
     int col=10;
-    int obj = 20;
+    int bombs = 10;
+    cout << "how many rows?";
+    std::cin >> row;
+    cout << "how many cols?";
+    std::cin >> col;
+    cout << "how many bombs?";
+    std::cin >> bombs;
+    int obj = bombs;
+    
     char** field = new char* [col];
     for (int i = 0; col > i; i++) {
         field[i] = new char[row];
@@ -176,26 +223,119 @@ int main()
     a.addell(charadd, -1, 0);
     a.addell(charadd, 0, -1);
     scanfor(field, col, row, 'B',a);
-    print(field, col, row);
+    char** efflagfield = new char* [col];
+    for (int i = 0; col > i; i++) {
+        efflagfield[i] = new char[row];
+    }
+    for (int i = 0; col > i; i++) {
+        for (int j = 0; row > j; j++) {
+            efflagfield[i][j] = '0';
+        }
+    }
     char** openedfield = new char* [col];
     for (int i = 0; col > i; i++) {
         openedfield[i] = new char[row];
     }
+    for (int i = 0; col > i; i++) {
+        for (int j = 0; row > j; j++) {
+            openedfield[i][j] = '0';
+        }
+    }
+    print(field, col, row);
     for (int q=0; q < col * row; q++) {
         int x = col;
         int y = row;
+        int boba = 0;
+        bool f = 0;
         start:
-        cout << "make move \n";
+        cout << "type of move: \n";
+        cin >> boba;
+        f = boba;
+        cout << "x: \n";
         cin >> x;
+        cout << "y: \n";
         cin >> y;
-        if (x >= col or y >= row) {
+        if (x >= row or y >= col) {
             cout << "invalid move \n";
             goto start;
         }
-        if (q == 0 and field[x][y] == 'B') {
+        
+        if (q == 0 and field[y][x] == 'B') {
             goto start;
         }
-
+        if (f) {
+            if (openedfield[y][x] != 'F') {
+                funcarr b;
+                b.addell(charadd, 1, 1);
+                b.addell(charadd, -1, 1);
+                b.addell(charadd, 1, -1);
+                b.addell(charadd, -1, -1);
+                b.addell(charadd, 1, 0);
+                b.addell(charadd, 0, 1);
+                b.addell(charadd, -1, 0);
+                b.addell(charadd, 0, -1);
+                saferun(efflagfield, col, row, y, x, b);
+                openedfield[y][x] = 'F';
+            }
+            else {
+                funcarr c;
+                c.addell(charminus, 1, 1);
+                c.addell(charminus, -1, 1);
+                c.addell(charminus, 1, -1);
+                c.addell(charminus, -1, -1);
+                c.addell(charminus, 1, 0);
+                c.addell(charminus, 0, 1);
+                c.addell(charminus, -1, 0);
+                c.addell(charminus, 0, -1);
+                saferun(efflagfield, col, row, y, x, c);
+                openedfield[y][x] = '0';
+            }
+        }
+        else {
+            if (openedfield[y][x] == 'F') {
+                printf("flag on the opening ceil");
+                goto start;
+            }
+            if (field[y][x] == 'B') {   
+                return 1;
+            }
+            else {
+                //print(openedfield, col, row);
+                openedfield[y][x] = 'E';
+                bool g = true;
+                while (g == true) {
+                    g = false;
+                    for (int i = 0; col > i; i++) {
+                        for (int j = 0; row > j; j++) {
+                            if (openedfield[i][j] == 'E') {
+                                g = true;
+                                opencel(field,efflagfield,openedfield, col, row, i, j);
+                                
+                            }
+                        }
+                    }
+                }
+            }
+            
+        
+        }
+        print(openedfield, col, row);
+        atcboardprint(field, openedfield, col, row);
+        int b = 0;
+        bool b2 = 0;
+        for (int i = 0; col > i; i++) {
+            for (int j = 0; row > j; j++) {
+                if (field[i][j] == 'B') {
+                    if (openedfield[i][j] != 'F') {
+                        b2 = 1;
+                    }
+                    b++;
+                }
+            }
+        }
+        if (!b2 and b==bombs) {
+            return 0;
+        }
     }
     
 }
