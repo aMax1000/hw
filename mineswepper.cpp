@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <utility>
+#include <Windows.h>
 using namespace std;
 template<typename T>
 void dpr(T e,char t=';') {
@@ -17,6 +18,12 @@ void resize(T*& arr, int oldsize, int size) {
     delete[] arr;
     arr = arr3;
 
+}
+void SetColor(int textColor, int bgColor)
+{
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole,
+        (bgColor << 4) | textColor);
 }
 
 
@@ -167,13 +174,24 @@ void atcboardprint(T**& arr, T**& arr3, int col, int row) {
         std::cout << i % 10 << '|';
         for (int j = 0; row > j; j++) {
             if(arr3[i][j]=='O'){
-            std::cout << arr[i][j] << ' ';
+                if (arr[i][j] == '0') {
+                    std::cout << ' ' << ' ';
+                }else{
+                    std::cout << arr[i][j] << ' ';
+                }
             }
             else {
                 if (arr3[i][j] == 'F') {
-                    std::cout << 'F' << ' ';
+                    SetColor(4, 8);
+                    std::cout << 'F' ;
+                    
+                    SetColor(7, 0);
+                    std::cout << ' ';
                 }else{
-                    std::cout << 'M' << ' ';
+                    SetColor(8, 8);
+                    std::cout << 'M';
+                    SetColor(7, 0);
+                    std::cout << ' ';
                 }
             }
         }
@@ -181,9 +199,29 @@ void atcboardprint(T**& arr, T**& arr3, int col, int row) {
     }
     std::cout << "----------";
 }
-
+template<typename T>
+void loseprint(T**& arr, int col, int row) {
+    for (int i = 0; col > i; i++) {
+        for (int j = 0; row > j; j++) {
+            if (arr[i][j] == 'B') {
+                SetColor(4, 0);
+                std::cout << 'B';
+                SetColor(7, 0);
+            }
+            else {
+                SetColor(8, 8);
+                std::cout << 'M';
+                SetColor(7, 0);
+            }
+            std::cout << ' ';
+        }
+        std::cout << std::endl;
+    }
+}
 int main()
 {
+    srand(time(NULL));
+    SetColor(7, 0);
     int row=10;
     int col=10;
     int bombs = 10;
@@ -241,7 +279,7 @@ int main()
             openedfield[i][j] = '0';
         }
     }
-    print(field, col, row);
+    atcboardprint(field, openedfield, col, row);
     for (int q=0; q < col * row; q++) {
         int x = col;
         int y = row;
@@ -261,9 +299,12 @@ int main()
         }
         
         if (q == 0 and field[y][x] == 'B') {
+            cout << "caught bomb on 1 move\n";
             goto start;
         }
         if (f) {
+            if(openedfield[y][x] != 'O'){
+
             if (openedfield[y][x] != 'F') {
                 funcarr b;
                 b.addell(charadd, 1, 1);
@@ -290,13 +331,22 @@ int main()
                 saferun(efflagfield, col, row, y, x, c);
                 openedfield[y][x] = '0';
             }
+            }
+            else {
+                cout << "invalid flag placement\n";
+                goto start;
+            }
         }
         else {
             if (openedfield[y][x] == 'F') {
                 printf("flag on the opening ceil");
                 goto start;
             }
-            if (field[y][x] == 'B') {   
+            if (field[y][x] == 'B') {  
+                lose:
+                SetColor(7, 0);
+                cout << "YOU LOST\n";
+                loseprint(field, col, row);
                 return 1;
             }
             else {
@@ -308,6 +358,9 @@ int main()
                     for (int i = 0; col > i; i++) {
                         for (int j = 0; row > j; j++) {
                             if (openedfield[i][j] == 'E') {
+                                if (field[i][j] == 'B') {
+                                    goto lose;
+                                }
                                 g = true;
                                 opencel(field,efflagfield,openedfield, col, row, i, j);
                                 
@@ -319,7 +372,6 @@ int main()
             
         
         }
-        print(openedfield, col, row);
         atcboardprint(field, openedfield, col, row);
         int b = 0;
         bool b2 = 0;
@@ -334,6 +386,8 @@ int main()
             }
         }
         if (!b2 and b==bombs) {
+            SetColor(7, 0);
+            cout << "YOU WON\n";
             return 0;
         }
     }
