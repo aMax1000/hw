@@ -217,6 +217,8 @@ void PrintTopN(Product* prID, unit size, int a) {
 	for (int i = 0; i < ssize; i++) {
 		Print_product(arr[i].first);
 	}
+	delete[] arr;
+	retrun;
 }
 
 
