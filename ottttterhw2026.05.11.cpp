@@ -4,6 +4,7 @@
 using namespace std;
 struct Fraction
 {
+	//все одно bitset не зміншуе розмір файлу
 	bool sign;
 	signed int x;
 	signed int y;
