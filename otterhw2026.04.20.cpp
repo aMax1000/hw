@@ -1,5 +1,5 @@
 ﻿#include <iostream>
-#include "Struck2026.05.03.h"
+#include "Struck2026.04.20.h"
 using namespace std;
 
 int main() {
