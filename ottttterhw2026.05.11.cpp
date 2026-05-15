@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <bit>
 #include <bitset>
 using namespace std;
@@ -32,10 +32,7 @@ int main()
 	{
 		for (int i = 0; i < N; i++)
 		{
-			char* c = (char*)&(infractions[i]);
-			for (int j=0; j<sizeof(Fraction);j++){
-				putc(*c++, file);
-			}
+				fwrite(reinterpret_cast<const void*>(&infractions[i]), sizeof(Fraction), 1, file);
 		}
 		fclose(file);
 	}
