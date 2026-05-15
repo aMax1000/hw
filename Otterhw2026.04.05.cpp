@@ -46,6 +46,11 @@ int main()
     std::cout << '\n';
     int* a = aboba(arr2d, row, col);
     print(a, row);
+    delete[] a;
+    for(int i=0;i<row;i++){
+        delete[] arr2d[i];
+    }
+    delete[] arr2d;
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
